@@ -1,15 +1,22 @@
 [project]
 name = "hotel-booking-service"
 version = "0.1.0"
-description = ""
+description = "HTTP JSON API for hotel rooms and bookings"
 authors = [
-    {name = "Your Name",email = "you@example.com"}
+    {name = "Vadim"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "django (>=6.1,<7.0)"
+    "django (>=6.1,<7.0)",
+    "djangorestframework (>=3.16,<4.0)",
+    "gunicorn (>=23.0,<24.0)",
+    "psycopg[binary] (>=3.2,<4.0)",
+    "pydantic-settings (>=2.7,<3.0)"
 ]
+
+[tool.poetry]
+package-mode = false
 
 
 [build-system]
@@ -23,13 +30,22 @@ dev = [
     "bandit (>=1.9.4,<2.0.0)",
     "radon (>=6.0.1,<7.0.0)",
     "pre-commit (>=4.6.2,<5.0.0)",
-    "pytest (>=9.1.1,<10.0.0)"
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-cov (>=7.0,<8.0)",
+    "pytest-django (>=4.11,<5.0)"
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["src"]
+testpaths = ["tests", "src/hotel/tests"]
+python_files = ["test_*.py", "*_tests.py"]
+addopts = "-ra --strict-markers"
 
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-src = ["src", "app"]
+src = ["src"]
 extend-exclude = [".venv", "venv", "build", "dist", "__pycache__", "migrations"]
 
 [tool.ruff.lint]
@@ -38,7 +54,7 @@ select = ["E4", "E7", "E9", "F", "W", "I", "UP", "B", "SIM"]
 ignore = []
 
 [tool.ruff.lint.isort]
-known-first-party = ["app", "src"]
+known-first-party = ["config", "hotel"]
 combine-as-imports = true
 force-sort-within-sections = true
 
