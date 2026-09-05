@@ -1,0 +1,21 @@
+@startuml
+title Hotel Booking Service — Диаграмма развёртывания
+node "Хост Docker" {
+  node "Контейнер web" as web {
+    artifact "Python 3.12\nDjango + DRF\nGunicorn" as app
+  }
+  node "Контейнер db" as db {
+    artifact "PostgreSQL 17" as postgres
+  }
+database "Том postgres_data" as volume
+}
+node "HTTP-клиент" as client
+
+client --> web : localhost:9000 -> :8000
+web --> db : PostgreSQL :5432
+db --> volume : постоянные данные
+note right of web
+  entrypoint выполняет миграции
+  перед запуском Gunicorn
+end note
+@enduml

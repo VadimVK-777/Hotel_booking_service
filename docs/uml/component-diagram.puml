@@ -1,0 +1,35 @@
+@startuml
+title Hotel Booking Service — Компонентная диаграмма
+skinparam componentStyle rectangle
+
+actor "HTTP-клиент" as client
+component "Маршрутизация Django\nconfig.urls / hotel.urls" as routing
+component "HTTP-обработчики\nhotel.views" as views
+component "Сериализаторы\nhotel.serializers" as serializers
+component "Сервисы записи\nhotel.services" as services
+component "Селекторы чтения\nhotel.selectors" as selectors
+component "Доменные ошибки\nhotel.exceptions" as errors
+component "Модели Django ORM\nhotel.models" as models
+database "PostgreSQL" as db
+component "Окружение и настройки\nconfig.environment / settings" as config
+
+client --> routing
+routing --> views
+views --> serializers
+views --> services
+views --> selectors
+views --> errors
+services --> models
+selectors --> models
+serializers ..> models
+models --> db
+config ..> views
+config ..> services
+config ..> models
+
+note right of services
+  Транзакции и блокировка строк
+  последовательно выполняют
+  создание брони одного номера.
+end note
+@enduml

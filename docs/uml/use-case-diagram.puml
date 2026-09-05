@@ -1,0 +1,28 @@
+@startuml
+title Поведенческая UML: варианты использования
+left to right direction
+actor "HTTP-клиент" as client
+rectangle "Hotel Booking Service" {
+ usecase "Создать номер" as UC1
+ usecase "Получить список номеров" as UC2
+ usecase "Удалить номер" as UC3
+ usecase "Создать бронь" as UC4
+ usecase "Получить брони номера" as UC5
+ usecase "Удалить бронь" as UC6
+ usecase "Проверить входные данные" as VALID
+ usecase "Проверить пересечение дат" as OVER
+}
+client --> UC1
+client --> UC2
+client --> UC3
+client --> UC4
+client --> UC5
+client --> UC6
+UC1 ..> VALID : <<include>>
+UC3 ..> VALID : <<include>>
+UC4 ..> VALID : <<include>>
+UC4 ..> OVER : <<include>>
+UC5 ..> VALID : <<include>>
+UC6 ..> VALID : <<include>>
+@enduml
+

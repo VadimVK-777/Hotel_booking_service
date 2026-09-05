@@ -1,0 +1,85 @@
+@startuml
+title Hotel Booking Service — Классы предметной области и приложения
+skinparam classAttributeIconSize 0
+
+package "hotel.models" {
+  class Room <<модель Django>> {
+    +id: BigAutoField
+    +description: TextField
+    +price: DecimalField
+    +created_at: DateTimeField
+  }
+  class Booking <<модель Django>> {
+    +id: BigAutoField
+    +room: ForeignKey
+    +date_start: DateField
+    +date_end: DateField
+  }
+  Room "1" -- "0..*" Booking : bookings
+}
+
+package "hotel.views" {
+  class HotelAPIView
+  class RoomCreateView
+  class RoomDeleteView
+  class RoomListView
+  class BookingCreateView
+  class BookingDeleteView
+  class BookingListView
+  HotelAPIView <|-- RoomCreateView
+  HotelAPIView <|-- RoomDeleteView
+  HotelAPIView <|-- RoomListView
+  HotelAPIView <|-- BookingCreateView
+  HotelAPIView <|-- BookingDeleteView
+  HotelAPIView <|-- BookingListView
+}
+
+package "hotel.serializers" {
+  class StrictDateField
+  class RoomCreateSerializer
+  class RoomIdSerializer
+  class RoomListQuerySerializer
+  class RoomSerializer
+  class BookingCreateSerializer
+  class BookingIdSerializer
+  class BookingSerializer
+}
+
+package "hotel.services" {
+  class Services <<модуль>> {
+    +create_room()
+    +delete_room()
+    +create_booking()
+    +delete_booking()
+  }
+}
+
+package "hotel.selectors" {
+  class Selectors <<модуль>> {
+    +list_rooms()
+    +list_room_bookings()
+  }
+}
+
+package "hotel.exceptions" {
+  class HotelDomainError <<исключение>>
+  class RoomNotFoundError
+  class BookingNotFoundError
+  class BookingOverlapError
+  HotelDomainError <|-- RoomNotFoundError
+  HotelDomainError <|-- BookingNotFoundError
+  HotelDomainError <|-- BookingOverlapError
+}
+
+views..> serializers : validates
+views..> Services : writes
+views..> Selectors : reads
+Services..> Room
+Services..> Booking
+Selectors..> Room
+Selectors..> Booking
+Services..> HotelDomainError
+Selectors..> RoomNotFoundError
+StrictDateField --|> DateField
+note "DateField — тип фреймворка DRF" as DateField
+@enduml

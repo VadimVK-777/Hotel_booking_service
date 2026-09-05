@@ -1,0 +1,17 @@
+@startuml
+title Структурная UML: внутренняя структура HTTP-компонента
+rectangle "HotelAPIView" as api {
+  rectangle "Request parser" as parser
+  rectangle "Serializer" as serializer
+  rectangle "Service / Selector" as operation
+  rectangle "Error mapper" as mapper
+  parser --> serializer
+  serializer --> operation
+  operation --> mapper
+}
+actor "Клиент" as client
+database "PostgreSQL" as db
+client --> parser : HTTP
+operation --> db : ORM
+@enduml
+

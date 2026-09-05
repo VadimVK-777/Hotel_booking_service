@@ -1,0 +1,21 @@
+@startuml
+title Структурная UML: снимок объектов
+object "room: Room" as room {
+ id = 24
+ description = "Номер с видом"
+ price = 149.90
+}
+object "booking: Booking" as booking {
+ id = 1444
+ date_start = 2031-06-20
+ date_end = 2031-06-25
+}
+object "otherBooking: Booking" as other {
+ id = 1445
+ date_start = 2031-07-01
+ date_end = 2031-07-05
+}
+room o-- booking
+room o-- other
+@enduml
+

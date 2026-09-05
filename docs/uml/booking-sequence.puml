@@ -1,0 +1,29 @@
+@startuml
+title Создание брони — успешный запрос и конфликт дат
+actor Клиент
+participant "BookingCreateView\nHTTP-обработчик" as View
+participant "BookingCreateSerializer\nсериализатор" as Serializer
+participant "services.create_booking\nсервис" as Service
+database PostgreSQL as DB
+
+Client -> View: POST /bookings/create
+View -> Serializer: Проверка room_id и дат
+Serializer --> View: Проверенные данные
+View -> Service: create_booking(...)
+Service -> DB: BEGIN
+Service -> DB: SELECT room FOR UPDATE
+DB --> Service: Номер заблокирован
+Service -> DB: Search overlapping bookings
+alt Найдено пересечение
+  DB --> Service: Да
+  Service -> DB: Откат транзакции
+  Service --> View: BookingOverlapError
+  View --> Client: 409 {error}
+else Пересечения нет
+  DB --> Service: Нет
+  Service -> DB: Вставка брони
+  Service -> DB: Фиксация транзакции
+  Service --> View: Booking
+  View --> Client: 201 {booking_id}
+end
+@enduml

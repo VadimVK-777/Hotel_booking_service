@@ -1,0 +1,21 @@
+@startuml
+title Структурная UML: профиль архитектуры
+skinparam stereotypeCBackgroundColor #EAF2F8
+class DjangoModel <<framework>> 
+class DRFSerializer <<framework>>
+class APIView <<framework>>
+class DomainService <<application>>
+class Selector <<application>>
+class DomainException <<domain>>
+class PostgreSQL <<infrastructure>>
+DjangoModel <|-- Room
+DjangoModel <|-- Booking
+DRFSerializer <|-- RoomSerializer
+APIView <|-- HotelAPIView
+DomainService ..> DjangoModel
+Selector ..> DjangoModel
+APIView ..> DRFSerializer
+DomainService ..> DomainException
+DjangoModel ..> PostgreSQL
+@enduml
+
