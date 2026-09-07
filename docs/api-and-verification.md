@@ -96,7 +96,7 @@ JSON-тело должно быть объектом.
 
 ```bash
 poetry install --with dev
-docker compose up -d db
+docker compose -f docker-compose.yaml up -d db
 poetry run pytest
 poetry run python src/manage.py makemigrations --check --dry-run
 ```

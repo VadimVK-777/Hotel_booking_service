@@ -79,7 +79,7 @@ Docker Desktop и используйте WSL 2 backend. Сам Docker Engine о�
 5. Соберите и запустите приложение вместе с PostgreSQL:
 
    ```bash
-   docker compose up --build
+   docker compose -f docker-compose.yaml up --build
    ```
 
 После прохождения healthcheck базы и применения миграций API доступен по адресу
@@ -96,14 +96,14 @@ curl http://localhost:9000/rooms/list
 Остановка без удаления данных:
 
 ```bash
-docker compose down
+docker compose -f docker-compose.yaml down
 ```
 
 PostgreSQL использует именованный volume `postgres_data`, поэтому обычный перезапуск
 контейнеров не удаляет номера и брони. Команда ниже намеренно удаляет volume и все данные:
 
 ```bash
-docker compose down -v
+docker compose -f docker-compose.yaml down -v
 ```
 
 Если `docker` доступен в PowerShell, но не находится внутри Ubuntu, повторно включите WSL
@@ -314,7 +314,7 @@ Django задаются одной переменной `POSTGRES_PORT`; вну�
 подключается к стандартному порту `5432`:
 
 ```bash
-docker compose up -d db
+docker compose -f docker-compose.yaml up -d db
 poetry run python src/manage.py migrate
 poetry run python src/manage.py runserver 0.0.0.0:9000
 ```
@@ -340,7 +340,7 @@ make test
 `POSTGRES_*` должны совпадать с `.env`:
 
 ```bash
-docker compose up -d db
+docker compose -f docker-compose.yaml up -d db
 poetry install --with dev
 poetry run pytest
 ```
@@ -366,7 +366,7 @@ GitHub Actions выполняет этот набор на PostgreSQL, вклю�
 
 ```text
 .
-├── compose.yaml
+├── docker-compose.yaml
 ├── .github/workflows/ci.yml
 ├── docker/
 ├── scripts/wsl-check.sh # проверка Docker Desktop integration внутри WSL

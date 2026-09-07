@@ -34,4 +34,4 @@ fi
 
 echo "WSL: ${WSL_DISTRO_NAME}"
 echo "Проект: ${project_dir}"
-echo "Docker и Compose готовы. Запуск: docker compose up --build"
+echo "Docker и Compose готовы. Запуск: docker compose -f docker-compose.yaml up --build"

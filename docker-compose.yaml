@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:17-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: "${POSTGRES_DB:-hotel_booking}"
       POSTGRES_USER: "${POSTGRES_USER:-hotel_booking}"
@@ -19,6 +20,7 @@ services:
   web:
     build:
       context: .
+    restart: unless-stopped
     init: true
     environment:
       DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:?Set DJANGO_SECRET_KEY in .env}"

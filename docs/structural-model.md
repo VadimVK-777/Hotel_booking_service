@@ -28,7 +28,7 @@ Hotel_booking_service/
 ├── docker/entrypoint.sh          # миграции перед запуском сервера
 ├── scripts/wsl-check.sh          # проверка окружения WSL/Docker
 ├── .github/workflows/ci.yml      # автоматические проверки
-├── compose.yaml                 # web, db и volume
+├── docker-compose.yaml          # web, db и volume
 ├── Dockerfile
 ├── .env.example                 # образец конфигурации
 ├── pyproject.toml               # зависимости и настройки инструментов
