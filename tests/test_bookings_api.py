@@ -1,9 +1,12 @@
+"""Тесты API бронирований: валидация, пересечения дат и каскадное удаление."""
+
 import pytest
 
 pytestmark = pytest.mark.django_db
 
 
 def test_create_booking_from_json_returns_generated_id(api_client, room_id):
+    # Успешное бронирование возвращает новый идентификатор записи.
     response = api_client.post(
         "/bookings/create",
         data={
@@ -203,6 +206,7 @@ def test_create_booking_rejects_every_kind_of_overlap(
     date_start,
     date_end,
 ):
+    # Любое пересечение интервалов с существующим бронированием запрещено.
     create_booking(room_id, "2031-06-20", "2031-06-25")
 
     response = api_client.post(

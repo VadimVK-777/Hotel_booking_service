@@ -1,3 +1,5 @@
+"""Общие фикстуры и вспомогательные фабрики для набора тестов."""
+
 from collections.abc import Callable
 import os
 from urllib.parse import urlencode

@@ -1,3 +1,5 @@
+"""Проверка загрузки настроек из окружения и файла .env."""
+
 from pydantic import ValidationError
 import pytest
 
@@ -17,6 +19,7 @@ ENVIRONMENT_KEYS = (
 
 
 def test_settings_load_and_validate_dotenv_values(tmp_path, monkeypatch):
+    # Настройки должны корректно читаться из временного файла .env.
     for key in ENVIRONMENT_KEYS:
         monkeypatch.delenv(key, raising=False)
     env_file = tmp_path / ".env"

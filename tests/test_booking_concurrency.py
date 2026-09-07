@@ -1,3 +1,5 @@
+"""Проверка защиты от двойного бронирования при конкурентных запросах."""
+
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
@@ -9,6 +11,7 @@ pytestmark = pytest.mark.django_db(transaction=True)
 
 
 def test_concurrent_overlapping_requests_create_only_one_booking(create_room):
+    # При гонке запросов база должна сохранить только одно пересекающееся бронирование.
     if connection.vendor != "postgresql":
         pytest.skip("PostgreSQL is required to verify SELECT FOR UPDATE semantics")
 

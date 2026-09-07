@@ -1,3 +1,5 @@
+"""Тесты HTTP API для создания, просмотра и удаления комнат."""
+
 from datetime import datetime
 from decimal import Decimal
 
@@ -8,6 +10,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_create_room_from_json_returns_generated_id(api_client):
+    # JSON-запрос должен создать комнату и вернуть числовой идентификатор.
     response = api_client.post(
         "/rooms/create",
         data={"description": "Double room", "price": "149.90"},
@@ -99,6 +102,7 @@ def test_room_list_is_empty_initially(api_client):
     ],
 )
 def test_room_list_sorts_by_price(api_client, create_room, order, expected_prices):
+    # Проверяем оба направления сортировки по цене.
     create_room(description="Expensive", price="30")
     create_room(description="Cheap", price="10")
     create_room(description="Regular", price="20")

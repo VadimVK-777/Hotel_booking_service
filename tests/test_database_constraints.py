@@ -1,3 +1,5 @@
+"""Проверка ограничений базы данных для комнат и бронирований."""
+
 from datetime import date
 from decimal import Decimal
 
@@ -11,6 +13,7 @@ pytestmark = pytest.mark.django_db
 
 @pytest.mark.parametrize("price", [Decimal("0.00"), Decimal("-1.00")])
 def test_database_rejects_non_positive_room_price(price):
+    # Цена комнаты обязана быть строго положительной.
     with pytest.raises(IntegrityError), transaction.atomic():
         Room.objects.create(description="Invalid room", price=price)
 

@@ -1,3 +1,5 @@
+"""Проверка общего HTTP-контракта обработчиков и формата ошибок."""
+
 import pytest
 
 pytestmark = pytest.mark.django_db
@@ -20,6 +22,7 @@ def test_handlers_reject_unsupported_http_methods(
     method,
     path,
 ):
+    # Каждый обработчик принимает только предусмотренный HTTP-метод.
     response = api_client.generic(method, path)
 
     assert_json_error(response, 405)
