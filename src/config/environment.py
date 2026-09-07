@@ -9,7 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 class EnvironmentSettings(BaseSettings):
-    """Environment-backed settings used by Django and application services."""
+    """Настройки из окружения, используемые Django и сервисами приложения."""
 
     django_secret_key: str
     django_debug: bool = True
@@ -32,12 +32,12 @@ class EnvironmentSettings(BaseSettings):
 
     @property
     def allowed_hosts(self) -> list[str]:
-        """Return the comma-separated host setting in Django's expected format."""
+        """Преобразует список хостов через запятую в формат Django."""
         return [host.strip() for host in self.django_allowed_hosts.split(",") if host.strip()]
 
 
 @lru_cache(maxsize=1)
 def get_environment() -> EnvironmentSettings:
-    """Load and validate application configuration once per process."""
-    # Required values are supplied by pydantic-settings sources rather than call arguments.
+    """Загружает и проверяет конфигурацию один раз за время работы процесса."""
+    # Обязательные значения поступают из источников pydantic-settings, а не из аргументов.
     return EnvironmentSettings()  # type: ignore[call-arg]

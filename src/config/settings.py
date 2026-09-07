@@ -1,4 +1,4 @@
-"""Django settings for the hotel booking service."""
+"""Настройки Django для сервиса бронирования отелей."""
 
 from pathlib import Path
 
@@ -12,7 +12,7 @@ DEBUG = environment.django_debug
 ALLOWED_HOSTS = environment.allowed_hosts
 
 
-# Application definition
+# Подключённые приложения проекта и зависимости Django/DRF.
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -55,7 +55,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-# Database
+# Параметры подключения к базе данных.
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
@@ -71,7 +71,7 @@ DATABASES = {
 }
 
 
-# Password validation
+# Валидаторы паролей (на случай использования стандартной модели пользователя).
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -90,7 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# Локаль и часовой пояс приложения.
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
@@ -102,7 +102,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Настройки статических файлов.
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = "static/"
@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
 }
 
 
-# Email
+# Почтовый backend для локальной разработки и тестов.
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
 MAILERS = {
