@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 def _first_error(value: Any) -> str:
+    # Преобразуем вложенную структуру ошибок DRF в одно понятное сообщение API.
     if isinstance(value, dict):
         if not value:
             return "Request failed"
@@ -47,7 +48,7 @@ def _first_error(value: Any) -> str:
 
 
 def _request_data(request: Request) -> dict[str, Any]:
-    """Read JSON/form body and use query parameters as a fallback."""
+    """Читает JSON/форму, используя query-параметры как запасной источник."""
     if not isinstance(request.data, Mapping):
         raise ParseError("Request body must be a JSON object")
     data = {key: value for key, value in request.data.items()}
@@ -61,6 +62,7 @@ class HotelAPIView(APIView):
     permission_classes = [AllowAny]
 
     def handle_exception(self, exc: Exception) -> Response:
+        # Все ошибки API приводятся к единому формату {"error": "..."}.
         try:
             response = super().handle_exception(exc)
         except Exception:
@@ -98,6 +100,7 @@ class RoomDeleteView(HotelAPIView):
 
 class RoomListView(HotelAPIView):
     def get(self, request: Request) -> Response:
+        # Параметры сортировки валидируются отдельно от данных комнаты.
         query_serializer = RoomListQuerySerializer(data=request.query_params)
         query_serializer.is_valid(raise_exception=True)
         rooms = selectors.list_rooms(**query_serializer.validated_data)

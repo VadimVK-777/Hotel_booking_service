@@ -10,6 +10,7 @@ DATE_PATTERN = re.compile(r"\A\d{4}-\d{2}-\d{2}\Z")
 
 class StrictDateField(serializers.DateField):
     def to_internal_value(self, data):
+        # До стандартного парсера разрешаем только строгий формат YYYY-MM-DD.
         if not isinstance(data, str) or DATE_PATTERN.fullmatch(data) is None:
             raise serializers.ValidationError(
                 "Date has wrong format. Use YYYY-MM-DD.",
@@ -59,6 +60,7 @@ class BookingCreateSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs: dict) -> dict:
+        # Нулевая длительность и даты в обратном порядке запрещены бизнес-правилом.
         if attrs["date_end"] <= attrs["date_start"]:
             raise serializers.ValidationError(
                 "date_end must be later than date_start",
