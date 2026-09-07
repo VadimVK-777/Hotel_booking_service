@@ -1,0 +1,57 @@
+@startuml
+title Hotel Booking Service — схема базы данных
+
+hide methods
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam roundcorner 14
+skinparam backgroundColor #1f1f1f
+skinparam class {
+  BackgroundColor #242424
+  BorderColor #555555
+  FontColor #f2f2f2
+  AttributeFontColor #f2f2f2
+  HeaderBackgroundColor #2b2b2b
+  HeaderFontColor #ffffff
+}
+skinparam note {
+  BackgroundColor #2b2b2b
+  BorderColor #555555
+  FontColor #d8d8d8
+}
+
+entity "hotel_room" as Room {
+  * id : BIGINT <<PK>>
+  --
+  * description : TEXT
+  * price : NUMERIC(12,2)
+  * created_at : TIMESTAMPTZ
+  --
+  .. indexes ..
+  _ price, id
+  _ created_at, id
+}
+
+entity "hotel_booking" as Booking {
+  * id : BIGINT <<PK>>
+  --
+  * room_id : BIGINT <<FK>>
+  * date_start : DATE
+  * date_end : DATE
+  --
+  .. index ..
+  _ room_id, date_start, id
+}
+
+Room ||--o{ Booking : "room_id"
+
+note right of Room
+  CHECK price > 0
+end note
+
+note right of Booking
+  CHECK date_end > date_start
+  ON DELETE CASCADE (Django ORM)
+end note
+@enduml

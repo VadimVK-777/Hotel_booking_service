@@ -4,6 +4,7 @@
 
 Структурные диаграммы:
 
+- [`database-schema.puml`](database-schema.puml) — таблицы PostgreSQL, ключи, ограничения и связь номеров с бронями;
 - [`component-diagram.puml`](component-diagram.puml) — компоненты приложения и зависимости;
 - [`class-diagram.puml`](class-diagram.puml) — модели предметной области и классы слоёв;
 - [`object-diagram.puml`](object-diagram.puml) — пример экземпляров номеров и броней;
