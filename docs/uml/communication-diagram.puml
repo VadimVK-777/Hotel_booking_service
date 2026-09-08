@@ -1,0 +1,21 @@
+@startuml
+title Поведенческая UML: коммуникация компонентов
+object "Клиент" as client
+object "BookingCreateView" as view
+object "BookingCreateSerializer" as ser
+object "services.create_booking" as svc
+object "PostgreSQL" as db
+client - view
+view - ser
+view - svc
+svc - db
+client --> view : 1: POST /bookings/create
+view --> ser : 2: validate()
+ser --> view : 3: validated_data
+view --> svc : 4: create_booking()
+svc --> db : 5: lock/check/insert
+db --> svc : 6: Booking или конфликт
+svc --> view : 7: результат
+view --> client : 8: HTTP 201/409
+@enduml
+

@@ -1,0 +1,31 @@
+@startuml
+title Структурная UML: пакеты
+skinparam packageStyle rectangle
+package "config" {
+ [settings]
+ [environment]
+ [urls]
+ [error_views]
+}
+package "hotel" {
+ [views]
+ [serializers]
+ [services]
+ [selectors]
+ [models]
+ [exceptions]
+ [migrations]
+}
+package "tests" { [API и интеграционные тесты] }
+[urls] --> [views]
+[views] --> [serializers]
+[views] --> [services]
+[views] --> [selectors]
+[services] --> [models]
+[selectors] --> [models]
+[views] --> [exceptions]
+[models] --> [migrations]
+[tests] ..> [views]
+[tests] ..> [models]
+@enduml
+

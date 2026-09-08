@@ -1,0 +1,26 @@
+@startuml
+title Поведенческая UML: обзор взаимодействий API
+start
+:Получить HTTP-запрос;
+if (Маршрут существует?) then (нет)
+  :JSON 404;
+  stop
+else (да)
+  :Выбрать view;
+  if (Метод разрешён?) then (нет)
+    :JSON 405;
+    stop
+  else (да)
+    :Валидировать вход;
+    if (Валидация успешна?) then (нет)
+      :JSON 400;
+      stop
+    else (да)
+      :Выполнить service или selector;
+      :Сформировать JSON-ответ;
+      stop
+    endif
+  endif
+endif
+@enduml
+
